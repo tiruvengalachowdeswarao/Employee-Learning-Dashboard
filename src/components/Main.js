@@ -1,4 +1,4 @@
-import "/Learning/learning-dashboard-main/src/css/App.css";
+import "/Learning/learning-dashboard-main/src/css/Main.css";
 import React from "react";
 import { Tab, Nav, Row, Col, Container, Alert } from "react-bootstrap";
 import { BsHouseDoorFill, BsFillGridFill } from "react-icons/bs";
@@ -6,7 +6,7 @@ import * as XLSX from "xlsx";
 import Home from "./home/Home";
 import Dashboard from "./dashboard/Dashboard";
 
-class App extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -353,4 +353,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Main;
