@@ -9,15 +9,16 @@ function DashboardModal(props) {
       </Modal.Header>
       <Modal.Body>
         <div className="ModalTable">
-          <Table bordered hover style={{ margin: "0px" }}>
-            <thead>
-              <tr>
-                <th>S NO</th>
-                <th>Employee ID</th>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>{props.tableBody}</tbody>
+          <Table
+            bordered
+            hover
+            style={{
+              margin: "0px",
+              textAlign: "center",
+              backgroundColor: "white",
+            }}
+          >
+            {props.tableBody}
           </Table>
         </div>
       </Modal.Body>

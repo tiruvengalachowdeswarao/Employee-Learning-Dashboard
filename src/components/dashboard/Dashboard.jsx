@@ -2,10 +2,11 @@ import React from "react";
 import people from "/Learning/learning-dashboard-main/src/images/people.jpg";
 import compliance from "/Learning/learning-dashboard-main/src/images/compliance.jpg";
 import noncompliance from "/Learning/learning-dashboard-main/src/images/noncompliance.jpg";
-import { Row, Col, Container, Button, Modal, Table } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import propTypes from "prop-types";
 import DashboardModal from "./DashboardModal";
 import DashboardTile from "./DashboardTile";
+import DashboardTable from "./DashboardTable";
 
 function Dashboard(props) {
   Dashboard.propTypes = {
@@ -26,65 +27,28 @@ function Dashboard(props) {
     selectedEmployeeLearnings: propTypes.array,
   };
 
-  let employeeDetailsTableBody = props.data.map((obj, index) => {
-    return (
-      <tr key={index}>
-        <td key={index}>{index + 1}</td>
-        <td key={index}>{obj.EmployeeID}</td>
-        <td key={index}>{obj.Name}</td>
-      </tr>
-    );
-  });
-
-  let employeeComplianceDetailsTableBody = props.compliance.map(
-    (obj, index) => {
-      return (
-        <tr key={index}>
-          <td key={index}>{index + 1}</td>
-          <td key={index}>{obj.EmployeeID}</td>
-          <td key={index}>{obj.Name}</td>
-        </tr>
-      );
-    }
+  let employeeDetailsTableBody = (
+    <DashboardTable data={props.data} tileTable={true}></DashboardTable>
   );
 
-  let employeeCourseDetailsTableBody = props.data.map((obj, index) => {
-    return (
-      <tr
-        key={index}
-        onClick={() => {
-          props.coursedetails(obj.CourseName);
-        }}
-      >
-        <td key={index}>{index + 1}</td>
-        <td key={index}>{obj.EmployeeID}</td>
-        <td key={index}>{obj.Name}</td>
-      </tr>
-    );
-  });
-
-  let employeeNonComplianceDetailsTableBody = props.noncompliance.map(
-    (obj, index) => {
-      return (
-        <tr key={index}>
-          <td key={index}>{index + 1}</td>
-          <td key={index}>{obj.EmployeeID}</td>
-          <td key={index}>{obj.Name}</td>
-        </tr>
-      );
-    }
+  let employeeComplianceDetailsTableBody = (
+    <DashboardTable data={props.compliance} tileTable={true}></DashboardTable>
   );
+
+  let employeeNonComplianceDetailsTableBody = (
+    <DashboardTable
+      data={props.noncompliance}
+      tileTable={true}
+    ></DashboardTable>
+  );
+
   let employeeCourseDetails = "";
   if (props.displayCoursedetails) {
-    employeeCourseDetails = props.selectedEmployeeLearnings.map(
-      (obj, index) => {
-        return (
-          <tr key={index}>
-            <td key={index}>{index + 1}</td>
-            <td key={index}>{obj}</td>
-          </tr>
-        );
-      }
+    employeeCourseDetails = (
+      <DashboardTable
+        data={props.selectedEmployeeLearnings}
+        tileTable={false}
+      ></DashboardTable>
     );
   }
 
@@ -141,53 +105,18 @@ function Dashboard(props) {
       <div className="CourseDetails">
         <h3>Employee Learning Details</h3>
         <div className="CourseTable">
-          <Table
-            bordered
-            hover
-            style={{
-              margin: "0px",
-              textAlign: "center",
-              backgroundColor: "white",
-            }}
-          >
-            <thead>
-              <tr>
-                <th>S No</th>
-                <th>Employee ID</th>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>{employeeCourseDetailsTableBody}</tbody>
-          </Table>
+          <DashboardTable
+            data={props.data}
+            mainTable={true}
+            coursedetails={props.coursedetails}
+          ></DashboardTable>
         </div>
       </div>
-      <Modal
+      <DashboardModal
         show={props.displayCoursedetails}
         onHide={props.hideEmployeeCourseDetails}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Employee Learning Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="ModalTable">
-            <Table bordered hover style={{ margin: "0px" }}>
-              <thead>
-                <tr>
-                  <th>S NO</th>
-                  <th>Course Name</th>
-                </tr>
-              </thead>
-              <tbody>{employeeCourseDetails}</tbody>
-            </Table>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={props.hideEmployeeCourseDetails}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        tableBody={employeeCourseDetails}
+      ></DashboardModal>
     </Container>
   );
 }
